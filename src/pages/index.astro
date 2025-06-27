@@ -1,16 +1,31 @@
 ---
-
+// Welcome to Astro!
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<h1>Welcome to <a href="https://astro.build">Astro</a></h1>
 	</body>
 </html>
+
+<style>
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 800;
+		text-align: center;
+		margin: 4rem auto;
+	}
+	a {
+		color: #4F46E5;
+	}
+	a:hover {
+		color: #7C3AED;
+	}
+</style>
