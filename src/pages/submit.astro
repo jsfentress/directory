@@ -1,0 +1,29 @@
+---
+import '../styles/global.css';
+---
+<html lang="en">
+  <head>
+    <title>Submit an Event | Nashville Music Radar</title>
+  </head>
+  <body class="p-8 max-w-2xl mx-auto font-sans bg-gray-50">
+    <!-- Top nav bar -->
+    <nav class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50">
+      <div class="max-w-5xl mx-auto flex items-center gap-2 p-3 justify-end">
+        <a href="/" class="font-semibold text-lg text-indigo-700 hover:underline">Home</a>
+        <a href="/submit" class="ml-2 px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">Submit an Event</a>
+      </div>
+    </nav>
+    <div class="h-14"></div>
+    <main>
+      <h1 class="text-3xl font-bold mb-4 text-center">Submit Your Event</h1>
+      <form class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow flex flex-col gap-4">
+        <input type="text" name="title" placeholder="Event title" required class="px-4 py-2 border border-gray-300 rounded" />
+        <input type="text" name="venue" placeholder="Venue" required class="px-4 py-2 border border-gray-300 rounded" />
+        <input type="date" name="date" required class="px-4 py-2 border border-gray-300 rounded" />
+        <input type="text" name="price" placeholder="Price (e.g. $10, Free)" class="px-4 py-2 border border-gray-300 rounded" />
+        <textarea name="description" placeholder="Event description" rows="3" class="px-4 py-2 border border-gray-300 rounded"></textarea>
+        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">Submit Event</button>
+      </form>
+    </main>
+  </body>
+</html> 

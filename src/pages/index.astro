@@ -8,7 +8,8 @@ const events = [
 		title: 'Indie Night',
 		venue: 'The 5 Spot',
 		date: '2025-06-29',
-		vibe: ['chill', 'acoustic'],
+		price: '$10',
+		genre: ['Acoustic', 'Indie'],
 		description: 'A relaxed evening of acoustic performances.',
 	},
 	{
@@ -16,7 +17,8 @@ const events = [
 		title: 'Loud & Local',
 		venue: 'Exit/In',
 		date: '2025-07-01',
-		vibe: ['rowdy'],
+		price: '$15',
+		genre: ['Rock', 'Local'],
 		description: 'Showcasing heavy-hitting local bands.',
 	},
 	{
@@ -24,12 +26,44 @@ const events = [
 		title: 'Experimental Jam',
 		venue: 'DRKMTTR',
 		date: '2025-07-04',
-		vibe: ['experimental'],
+		price: 'Free',
+		genre: ['Experimental', 'Jazz'],
 		description: 'Avant-garde sounds and synths.',
 	}
 ];
 
-const tags = ['chill', 'acoustic', 'rowdy', 'experimental'];
+const genres = ['Acoustic', 'Indie', 'Rock', 'Local', 'Experimental', 'Jazz'];
+
+const faqs = [
+	{
+		q: 'How do I submit my event?',
+		a: 'Use the form below to send us your event details. We review and add new events regularly.'
+	},
+	{
+		q: 'Is it free to list an event?',
+		a: 'Yes! Listing your event is completely free.'
+	},
+	{
+		q: 'How often is the directory updated?',
+		a: 'We update the directory weekly with new events and information.'
+	},
+	{
+		q: 'How do I subscribe to updates?',
+		a: 'Use the newsletter signup form above or below to get the latest events in your inbox.'
+	}
+];
+
+const blogPosts = [
+	{ title: 'How to Find the Best Live Music in Nashville', url: '#' },
+	{ title: 'Top 5 Venues for Indie Shows', url: '#' },
+	{ title: 'Guide to Nashville Music Festivals', url: '#' },
+];
+
+const topEvents = [
+	{ title: 'Indie Night', url: '#' },
+	{ title: 'Loud & Local', url: '#' },
+	{ title: 'Experimental Jam', url: '#' },
+];
 ---
 
 <html lang="en">
@@ -38,7 +72,7 @@ const tags = ['chill', 'acoustic', 'rowdy', 'experimental'];
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Nashville Event Directory</title>
+		<title>Nashville Music Radar</title>
 		<style>
 			body {
 				font-family: system-ui, sans-serif;
@@ -132,12 +166,136 @@ const tags = ['chill', 'acoustic', 'rowdy', 'experimental'];
 			}
 		</style>
 	</head>
-	<body class="p-8 max-w-5xl mx-auto font-sans">
-		<header class="mb-6">
-			<h1 class="text-4xl font-bold mb-2">Nashville Event Directory</h1>
-			<p class="text-gray-600">Discover local shows by vibe, venue, or keyword.</p>
+	<body class="p-8 max-w-5xl mx-auto font-sans bg-gray-50">
+		<!-- Top nav bar -->
+		<nav class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50">
+			<div class="max-w-5xl mx-auto flex items-center gap-2 p-3 justify-end">
+				<a href="/" class="font-semibold text-lg text-indigo-700 hover:underline">Home</a>
+				<a href="/submit" class="ml-2 px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">Submit an Event</a>
+			</div>
+		</nav>
+		<div class="h-14"></div>
+		<header class="mb-6 flex flex-col items-center text-center">
+			<h1 class="text-4xl font-bold mb-2">Nashville Music Radar</h1>
+			<p class="text-gray-600 mb-6">Discover local shows by genre, venue, or keyword.</p>
+			<div class="mb-2 font-medium text-indigo-700">Sign up for our weekly roundup</div>
+			<form class="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-md mx-auto bg-white p-4 rounded-lg shadow mb-8" autocomplete="off" aria-label="Newsletter signup">
+				<label for="newsletter-email" class="sr-only">Email address</label>
+				<input
+					id="newsletter-email"
+					name="email"
+					type="email"
+					required
+					placeholder="enter email"
+					class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+				/>
+				<button
+					type="submit"
+					class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
+				>
+					Subscribe
+				</button>
+			</form>
 		</header>
 
-		<EventDirectory client:load events={events} tags={tags} />
+		<EventDirectory client:load events={events} tags={genres} />
+
+		<!-- Newsletter signup (reminder) -->
+		<section class="my-12">
+			<h2 class="text-2xl font-semibold text-center mb-4">Stay in the Loop</h2>
+			<form class="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-md mx-auto bg-white p-4 rounded-lg shadow" autocomplete="off" aria-label="Newsletter signup (bottom)">
+				<label for="newsletter-email-bottom" class="sr-only">Email address</label>
+				<input
+					id="newsletter-email-bottom"
+					name="email"
+					type="email"
+					required
+					placeholder="enter email"
+					class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+				/>
+				<button
+					type="submit"
+					class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
+				>
+					Subscribe
+				</button>
+			</form>
+		</section>
+
+		<!-- FAQ section -->
+		<section class="my-12">
+			<h2 class="text-2xl font-semibold text-center mb-4">Frequently Asked Questions</h2>
+			<div class="max-w-2xl mx-auto divide-y divide-gray-200 bg-white rounded-lg shadow">
+				{faqs.map(faq => (
+					<div class="p-4">
+						<details>
+							<summary class="font-semibold cursor-pointer">{faq.q}</summary>
+							<p class="mt-2 text-gray-700">{faq.a}</p>
+						</details>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- About the creator -->
+		<section class="my-12">
+			<h2 class="text-2xl font-semibold text-center mb-4">About the Creator</h2>
+			<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow text-center">
+				<p class="mb-2">Hi, I'm [Your Name], a Nashville music fan and web developer. I built this directory to help locals and visitors discover the best live music events in town. I hope it helps you find your next favorite show!</p>
+				<p class="text-gray-500 text-sm">Want to connect? <a href="mailto:youremail@example.com" class="text-blue-600 hover:underline">Email me</a> or find me on <a href="https://twitter.com/yourhandle" class="text-blue-600 hover:underline">Twitter</a>.</p>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="mt-16 py-10 border-t border-gray-200 bg-white text-gray-700">
+			<div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4">
+				<!-- Main Pages -->
+				<div>
+					<h3 class="font-semibold mb-2">Main Pages</h3>
+					<ul class="space-y-1">
+						<li><a href="#" class="hover:underline">Home</a></li>
+						<li><a href="#submit" class="hover:underline">Submit Event</a></li>
+						<li><a href="#faq" class="hover:underline">FAQ</a></li>
+						<li><a href="#about" class="hover:underline">About</a></li>
+					</ul>
+				</div>
+				<!-- Blog Posts -->
+				<div>
+					<h3 class="font-semibold mb-2">Popular Blog Posts</h3>
+					<ul class="space-y-1">
+						{blogPosts.map(post => (
+							<li><a href={post.url} class="hover:underline">{post.title}</a></li>
+						))}
+					</ul>
+				</div>
+				<!-- Categories -->
+				<div>
+					<h3 class="font-semibold mb-2">Categories</h3>
+					<ul class="space-y-1">
+						{genres.map(genre => (
+							<li><a href={`#category-${genre}`} class="hover:underline capitalize">{genre}</a></li>
+						))}
+					</ul>
+				</div>
+				<!-- Top Events -->
+				<div>
+					<h3 class="font-semibold mb-2">Top Events</h3>
+					<ul class="space-y-1">
+						{topEvents.map(event => (
+							<li><a href={event.url} class="hover:underline">{event.title}</a></li>
+						))}
+					</ul>
+				</div>
+			</div>
+			<div class="flex justify-between items-center max-w-5xl mx-auto mt-8 px-4 text-sm">
+				<div>
+					<a href="#prev" class="hover:underline">&larr; Previous Page</a>
+				</div>
+				<div class="text-gray-400">&copy; {new Date().getFullYear()} Nashville Event Directory</div>
+				<div>
+					<a href="#next" class="hover:underline">Next Page &rarr;</a>
+				</div>
+			</div>
+		</footer>
 	</body>
 </html>
