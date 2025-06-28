@@ -1,0 +1,27 @@
+---
+import NavDrawer from '../components/NavDrawer.jsx';
+import '../styles/global.css';
+---
+<html lang="en">
+  <head>
+    <title>Thank You | Nashville Music Radar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <nav class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50">
+      <div class="max-w-2xl mx-auto flex items-center gap-2 px-4 py-3 justify-between">
+        <div class="flex items-center">
+          <NavDrawer client:load />
+        </div>
+        <a href="/submit" class="ml-2 px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition text-base font-semibold">Submit an Event</a>
+      </div>
+    </nav>
+    <main class="flex flex-col items-center justify-center min-h-screen pt-32 px-2">
+      <div class="w-full max-w-md bg-white/80 p-8 rounded-lg shadow text-center">
+        <h1 class="text-3xl font-bold mb-4 text-indigo-700">Thank You!</h1>
+        <p class="text-lg mb-6">Thank you for your submission! We are reviewing it and will add it to the setlist if approved.</p>
+        <a href="/" class="inline-block px-6 py-3 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition text-lg font-semibold">Return Home</a>
+      </div>
+    </main>
+  </body>
+</html> 

@@ -1,5 +1,6 @@
 ---
 import EventDirectory from '../components/EventDirectory.jsx';
+import NavDrawer from '../components/NavDrawer.jsx';
 import '../styles/global.css';
 
 const events = [
@@ -169,8 +170,10 @@ const topEvents = [
 	<body class="p-8 max-w-5xl mx-auto font-sans bg-gray-50">
 		<!-- Top nav bar -->
 		<nav class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50">
-			<div class="max-w-5xl mx-auto flex items-center gap-2 px-4 py-3 justify-end">
-				<a href="/" class="font-semibold text-lg text-indigo-700 hover:underline">Home</a>
+			<div class="max-w-2xl mx-auto flex items-center gap-2 px-4 py-3 justify-between">
+				<div class="flex items-center">
+					<NavDrawer client:load />
+				</div>
 				<a href="/submit" class="ml-2 px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition text-base font-semibold">Submit an Event</a>
 			</div>
 		</nav>

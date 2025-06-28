@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import NavDrawer from '../components/NavDrawer.jsx';
 ---
 <html lang="en">
   <head>
@@ -9,8 +10,10 @@ import '../styles/global.css';
   <body class="bg-gray-50 min-h-screen">
     <!-- Top nav bar -->
     <nav class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50">
-      <div class="max-w-5xl mx-auto flex items-center gap-2 px-4 py-3 justify-end">
-        <a href="/" class="font-semibold text-lg text-indigo-700 hover:underline">Home</a>
+      <div class="max-w-2xl mx-auto flex items-center gap-2 px-4 py-3 justify-between">
+        <div class="flex items-center">
+          <NavDrawer client:load />
+        </div>
         <a href="/submit" class="ml-2 px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition text-base font-semibold">Submit an Event</a>
       </div>
     </nav>
@@ -18,7 +21,7 @@ import '../styles/global.css';
       <h1 class="text-3xl font-bold mb-8 text-center">Submit Your Event</h1>
       <div class="relative w-full max-w-md">
         <img src="/doodles.png" alt="doodle background" class="absolute inset-0 w-full h-full object-cover opacity-100 pointer-events-none select-none" style="z-index:1;" />
-        <form class="relative w-full bg-white/80 p-4 sm:p-8 rounded-lg shadow flex flex-col gap-5" style="z-index:2;">
+        <form id="event-form" class="relative w-full bg-white/80 p-4 sm:p-8 rounded-lg shadow flex flex-col gap-5" style="z-index:2;">
           <label for="title" class="text-base font-medium">Event Title</label>
           <input type="text" id="title" name="title" placeholder="Event title" required class="w-full px-4 py-4 text-lg rounded border border-gray-300" />
           <label for="venue" class="text-base font-medium">Venue</label>
@@ -27,10 +30,32 @@ import '../styles/global.css';
           <input type="date" id="date" name="date" required class="w-full h-12 px-4 text-lg rounded border border-gray-300" />
           <label for="price" class="text-base font-medium">Price</label>
           <input type="text" id="price" name="price" placeholder="Price (e.g. $10, Free)" class="w-full px-4 py-4 text-lg rounded border border-gray-300" />
-          <label for="description" class="text-base font-medium">Event Description</label>
-          <textarea id="description" name="description" placeholder="Event description" rows="3" class="w-full px-4 py-4 text-lg rounded border border-gray-300"></textarea>
+          <label for="description" class="text-base font-medium">Event Link or Description</label>
+          <textarea id="description" name="description" placeholder="Link or Description" rows="3" class="w-full px-4 py-4 text-lg rounded border border-gray-300"></textarea>
           <button type="submit" class="w-full px-4 py-4 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition text-lg font-semibold">Submit Event</button>
         </form>
+        <script type="module">
+          const form = document.getElementById('event-form');
+          form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(form));
+            try {
+              const res = await fetch('/api/submit-event', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+              });
+              const result = await res.json();
+              if (result.success) {
+                window.location.href = '/thank-you';
+              } else {
+                alert(result.error || 'Submission failed.');
+              }
+            } catch (err) {
+              alert('Submission failed.');
+            }
+          });
+        </script>
       </div>
     </main>
   </body>
