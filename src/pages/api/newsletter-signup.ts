@@ -1,15 +1,40 @@
 import type { APIRoute } from 'astro';
 import pb from '../../lib/pocketbase';
+import { Resend } from 'resend';
+
+const resend = new Resend(import.meta.env.RESEND_API_KEY);
+
+function generateToken() {
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     const { email } = await request.json();
     if (!email) throw new Error('Email is required');
 
-    // Save to PocketBase
-    const record = await pb.collection('newsletter_signups').create({ email });
+    const token = generateToken();
 
-    return new Response(JSON.stringify({ success: true, record }), {
+    // Save to PocketBase as unconfirmed
+    const record = await pb.collection('newsletter_signups').create({
+      Email: email, // Use the exact field name from PB
+      confirmed: false,
+      token,
+    });
+
+    // Build confirmation link
+    const baseUrl = import.meta.env.SITE_URL || 'https://your-site.netlify.app';
+    const confirmLink = `${baseUrl}/api/confirm-newsletter?id=${record.id}&token=${token}`;
+
+    // Send confirmation email
+    await resend.emails.send({
+      from: 'Your Name <your@email.com>',
+      to: email,
+      subject: 'Confirm your subscription',
+      html: `<p>Click <a href="${confirmLink}">here to confirm your subscription</a>.</p>`,
+    });
+
+    return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });

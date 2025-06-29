@@ -15,7 +15,8 @@
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^5.10.1",
     "pocketbase": "^0.26.1",
-    "preact": "^10.26.9"
+    "preact": "^10.26.9",
+    "resend": "^4.6.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",
