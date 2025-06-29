@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test - PocketBase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .success {
+            color: green;
+            background: #d4edda;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .error {
+            color: red;
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>CORS Test for PocketBase</h1>
+        <p>This page tests if your PocketBase instance allows requests from this domain.</p>
+        
+        <button onclick="testHealth()">Test Health Check</button>
+        <button onclick="testCollections()">Test Collections</button>
+        <button onclick="testCreateRecord()">Test Create Record</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const POCKETBASE_URL = 'https://dpocket-production.up.railway.app';
+        
+        function log(message, isError = false) {
+            const resultDiv = document.getElementById('result');
+            const className = isError ? 'error' : 'success';
+            resultDiv.innerHTML += `<div class="${className}">${message}</div>`;
+        }
+        
+        function clearLog() {
+            document.getElementById('result').innerHTML = '';
+        }
+        
+        async function testHealth() {
+            clearLog();
+            log('Testing health check...');
+            
+            try {
+                const response = await fetch(`${POCKETBASE_URL}/api/health`);
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Health check passed: ${JSON.stringify(data)}`);
+                } else {
+                    log(`❌ Health check failed: ${response.status} ${response.statusText}`, true);
+                }
+            } catch (error) {
+                log(`❌ Health check error: ${error.message}`, true);
+            }
+        }
+        
+        async function testCollections() {
+            clearLog();
+            log('Testing collections access...');
+            
+            try {
+                const response = await fetch(`${POCKETBASE_URL}/api/collections`);
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Collections retrieved: ${data.items.length} collections`);
+                    
+                    const eventsCollection = data.items.find(col => col.name === 'events');
+                    if (eventsCollection) {
+                        log(`✅ Events collection found with fields: ${eventsCollection.schema.map(f => f.name).join(', ')}`);
+                    } else {
+                        log('❌ Events collection not found', true);
+                    }
+                } else {
+                    log(`❌ Collections access failed: ${response.status} ${response.statusText}`, true);
+                }
+            } catch (error) {
+                log(`❌ Collections error: ${error.message}`, true);
+            }
+        }
+        
+        async function testCreateRecord() {
+            clearLog();
+            log('Testing record creation...');
+            
+            try {
+                const testData = {
+                    Title: 'CORS Test Event',
+                    Venue: 'Test Venue',
+                    Date: '2024-01-01',
+                    Price: 'Free',
+                    Description: 'This is a CORS test event',
+                    Status: 'pending'
+                };
+                
+                const response = await fetch(`${POCKETBASE_URL}/api/collections/events/records`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Record created successfully: ${data.id}`);
+                    
+                    // Clean up - delete the test record
+                    const deleteResponse = await fetch(`${POCKETBASE_URL}/api/collections/events/records/${data.id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (deleteResponse.ok) {
+                        log('✅ Test record cleaned up');
+                    } else {
+                        log('⚠️ Could not clean up test record', true);
+                    }
+                } else {
+                    const errorText = await response.text();
+                    log(`❌ Record creation failed: ${response.status} ${response.statusText}`, true);
+                    log(`Error details: ${errorText}`, true);
+                }
+            } catch (error) {
+                log(`❌ Record creation error: ${error.message}`, true);
+            }
+        }
+    </script>
+</body>
+</html> 
