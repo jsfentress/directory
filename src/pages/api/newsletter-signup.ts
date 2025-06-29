@@ -28,7 +28,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Send confirmation email
     await resend.emails.send({
-      from: 'Your Name <your@email.com>',
+      from: 'onboarding@resend.dev',
       to: email,
       subject: 'Confirm your subscription',
       html: `<p>Click <a href="${confirmLink}">here to confirm your subscription</a>.</p>`,
