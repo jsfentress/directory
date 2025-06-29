@@ -17,7 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Save to PocketBase as unconfirmed
     const record = await pb.collection('newsletter_signups').create({
-      Email: email, // Use the exact field name from PB
+      email: email, // Use lowercase to match PB field
       confirmed: false,
       token,
     });
