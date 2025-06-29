@@ -303,7 +303,17 @@ const topEvents = [
 				</div>
 			</div>
 		</footer>
+		<div id="newsletter-success" style="display:none;position:fixed;top:2rem;right:2rem;z-index:9999;background:#22c55e;color:white;padding:1rem 2rem;border-radius:0.75rem;box-shadow:0 2px 8px #0002;font-weight:bold;transition:opacity 0.5s;opacity:0;">Thanks for signing up!</div>
 		<script type="module">
+			function showNewsletterSuccess() {
+				const box = document.getElementById('newsletter-success');
+				box.style.display = 'block';
+				box.style.opacity = '1';
+				setTimeout(() => {
+					box.style.opacity = '0';
+					setTimeout(() => { box.style.display = 'none'; }, 500);
+				}, 2500);
+			}
 			// Top form
 			document.getElementById('newsletter-form').addEventListener('submit', async (e) => {
 				e.preventDefault();
@@ -318,7 +328,7 @@ const topEvents = [
 				const result = await res.json();
 				if (result.success) {
 					form.reset();
-					alert('Thanks for signing up!');
+					showNewsletterSuccess();
 				} else {
 					alert(result.error || 'Signup failed.');
 				}
@@ -337,7 +347,7 @@ const topEvents = [
 				const result = await res.json();
 				if (result.success) {
 					form.reset();
-					alert('Thanks for signing up!');
+					showNewsletterSuccess();
 				} else {
 					alert(result.error || 'Signup failed.');
 				}
