@@ -23,7 +23,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     // Build confirmation link
-    const baseUrl = import.meta.env.SITE_URL || 'https://your-site.netlify.app';
+    const baseUrl = import.meta.env.SITE_URL || 'https://showcal.netlify.app';
     const confirmLink = `${baseUrl}/confirm-newsletter?id=${record.id}&token=${token}`;
 
     // Send confirmation email
