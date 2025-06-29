@@ -66,7 +66,6 @@ const topEvents = [
 	{ title: 'Experimental Jam', url: '#' },
 ];
 ---
-<script src="/newsletter.js"></script>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
@@ -304,6 +303,45 @@ const topEvents = [
 				</div>
 			</div>
 		</footer>
-		<script src="/newsletter.js"></script>
+		<script type="module">
+			// Top form
+			document.getElementById('newsletter-form').addEventListener('submit', async (e) => {
+				e.preventDefault();
+				const form = e.target;
+				const formData = new FormData(form);
+				const email = formData.get('email');
+				const res = await fetch('/api/newsletter-signup', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ email }),
+				});
+				const result = await res.json();
+				if (result.success) {
+					form.reset();
+					alert('Thanks for signing up!');
+				} else {
+					alert(result.error || 'Signup failed.');
+				}
+			});
+			// Bottom form
+			document.getElementById('newsletter-form-bottom').addEventListener('submit', async (e) => {
+				e.preventDefault();
+				const form = e.target;
+				const formData = new FormData(form);
+				const email = formData.get('email');
+				const res = await fetch('/api/newsletter-signup', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ email }),
+				});
+				const result = await res.json();
+				if (result.success) {
+					form.reset();
+					alert('Thanks for signing up!');
+				} else {
+					alert(result.error || 'Signup failed.');
+				}
+			});
+		</script>
 	</body>
 </html>
