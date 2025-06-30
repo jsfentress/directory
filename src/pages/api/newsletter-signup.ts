@@ -32,7 +32,7 @@ export const POST: APIRoute = async ({ request }) => {
     console.log("About to send email to:", email);
     try {
       await resend.emails.send({
-        from: 'onboarding@resend.dev',
+        from: 'newsletter@nashvillesetlist.com',
         to: email,
         subject: 'Welcome to Nashville Setlist! Please Confirm Your Subscription',
         html: `
