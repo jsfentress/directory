@@ -1,19 +1,24 @@
 import type { APIRoute } from 'astro';
-import pb from '../../lib/pocketbase';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  import.meta.env.SUPABASE_URL,
+  import.meta.env.SUPABASE_ANON_KEY
+);
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     const data = await request.json();
-    // Use exact field names/casing as in PocketBase, including Price
-    const record = await pb.collection('events').create({
-      Title: data.title,
-      Venue: data.venue,
-      Date: data.date,
-      Price: data.price,
-      Description: data.description,
-      Status: 'pending',
-    });
-    return new Response(JSON.stringify({ success: true, record }), {
+    // Adjust field names to match your Supabase table
+    const { title, venue, date, price, description } = data;
+
+    const { error } = await supabase
+      .from('events')
+      .insert([{ title, venue, date, price, description, status: 'pending' }]);
+
+    if (error) throw error;
+
+    return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
@@ -23,4 +28,4 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { 'Content-Type': 'application/json' },
     });
   }
-}; 
+};
