@@ -1,31 +1,4 @@
 ---
-import { onMount } from 'astro/client';
-let status = 'pending';
-let message = 'Confirming your subscription...';
-
-onMount(async () => {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-  const token = params.get('token');
-  if (!id || !token) {
-    status = 'error';
-    message = 'Invalid confirmation link.';
-    return;
-  }
-  try {
-    const res = await fetch(`/api/confirm-newsletter?id=${id}&token=${token}`);
-    if (res.ok) {
-      status = 'success';
-      message = 'Your subscription is confirmed! Thank you for joining the newsletter.';
-    } else {
-      status = 'error';
-      message = await res.text();
-    }
-  } catch (err) {
-    status = 'error';
-    message = 'An error occurred while confirming your subscription.';
-  }
-});
 ---
 <html lang="en">
   <head>
@@ -35,10 +8,36 @@ onMount(async () => {
   <body class="bg-gray-50 min-h-screen flex items-center justify-center">
     <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow text-center">
       <h1 class="text-2xl font-bold mb-4">Newsletter Confirmation</h1>
-      <div class={`mb-4 ${status === 'success' ? 'text-green-600' : status === 'error' ? 'text-red-600' : 'text-gray-600'}`}>
-        {message}
+      <div id="confirmation-message" class="mb-4 text-gray-600">
+        Confirming your subscription...
       </div>
       <a href="/" class="text-indigo-600 hover:underline">Back to Home</a>
     </div>
+    <script type="module">
+      (async () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const token = params.get('token');
+        const msgDiv = document.getElementById('confirmation-message');
+        if (!id || !token) {
+          msgDiv.textContent = 'Invalid confirmation link.';
+          msgDiv.className = 'mb-4 text-red-600';
+          return;
+        }
+        try {
+          const res = await fetch(`/api/confirm-newsletter?id=${id}&token=${token}`);
+          if (res.ok) {
+            msgDiv.textContent = 'Your subscription is confirmed! Thank you for joining the newsletter.';
+            msgDiv.className = 'mb-4 text-green-600';
+          } else {
+            msgDiv.textContent = await res.text();
+            msgDiv.className = 'mb-4 text-red-600';
+          }
+        } catch (err) {
+          msgDiv.textContent = 'An error occurred while confirming your subscription.';
+          msgDiv.className = 'mb-4 text-red-600';
+        }
+      })();
+    </script>
   </body>
 </html> 
