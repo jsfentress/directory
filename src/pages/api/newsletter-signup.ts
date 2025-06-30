@@ -29,21 +29,26 @@ export const POST: APIRoute = async ({ request }) => {
     const baseUrl = import.meta.env.SITE_URL || 'https://nashvillesetlist.com';
     const confirmLink = `${baseUrl}/confirm-newsletter?token=${token}`;
 
-    // Send confirmation email
-    await resend.emails.send({
-      from: 'onboarding@resend.dev',
-      to: email,
-      subject: 'Welcome to Nashville Setlist! Please Confirm Your Subscription',
-      html: `
-        <h2>Welcome to Nashville Setlist!</h2>
-        <p>Thank you for signing up for our newsletter.</p>
-        <p>To confirm your subscription, please click the link below:</p>
-        <p><a href="${confirmLink}">Confirm My Subscription</a></p>
-        <p>If you did not sign up, you can safely ignore this email.</p>
-        <br>
-        <p>— The Nashville Setlist Team</p>
-      `,
-    });
+    console.log("About to send email to:", email);
+    try {
+      await resend.emails.send({
+        from: 'onboarding@resend.dev',
+        to: email,
+        subject: 'Welcome to Nashville Setlist! Please Confirm Your Subscription',
+        html: `
+          <h2>Welcome to Nashville Setlist!</h2>
+          <p>Thank you for signing up for our newsletter.</p>
+          <p>To confirm your subscription, please click the link below:</p>
+          <p><a href="${confirmLink}">Confirm My Subscription</a></p>
+          <p>If you did not sign up, you can safely ignore this email.</p>
+          <br>
+          <p>— The Nashville Setlist Team</p>
+        `,
+      });
+      console.log("Email send attempted for:", email);
+    } catch (err) {
+      console.error("Resend error for", email, err);
+    }
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
