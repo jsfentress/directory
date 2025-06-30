@@ -32,6 +32,11 @@ export const GET: APIRoute = async ({ url }) => {
 
     if (updateError) throw updateError;
 
+    // Insert into confirmed list
+    await supabase
+      .from('newsletter_confirmed')
+      .insert([{ email: data.email }]);
+
     return new Response('Your subscription is confirmed! You may close this page.', {
       status: 200,
       headers: { 'Content-Type': 'text/html' },
