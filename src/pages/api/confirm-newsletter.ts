@@ -7,7 +7,7 @@ const supabase = createClient(
 );
 
 export const GET: APIRoute = async ({ url }) => {
-  const token = url.searchParams.get('id');
+  const token = url.searchParams.get('token');
   if (!token) {
     return new Response('Invalid confirmation link.', { status: 400 });
   }

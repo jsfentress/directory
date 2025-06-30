@@ -27,7 +27,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Build confirmation link
     const baseUrl = import.meta.env.SITE_URL || 'https://your-site.netlify.app';
-    const confirmLink = `${baseUrl}/confirm-newsletter?id=${token}`;
+    const confirmLink = `${baseUrl}/confirm-newsletter?token=${token}`;
 
     // Send confirmation email
     await resend.emails.send({

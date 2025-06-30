@@ -16,16 +16,15 @@
     <script type="module">
       (async () => {
         const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
         const token = params.get('token');
         const msgDiv = document.getElementById('confirmation-message');
-        if (!id || !token) {
+        if (!token) {
           msgDiv.textContent = 'Invalid confirmation link.';
           msgDiv.className = 'mb-4 text-red-600';
           return;
         }
         try {
-          const res = await fetch(`/api/confirm-newsletter?id=${id}&token=${token}`);
+          const res = await fetch(`/api/confirm-newsletter?token=${token}`);
           if (res.ok) {
             msgDiv.textContent = 'Your subscription is confirmed! Thank you for joining the newsletter.';
             msgDiv.className = 'mb-4 text-green-600';
