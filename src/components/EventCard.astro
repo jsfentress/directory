@@ -13,13 +13,10 @@ interface Event {
 
 const { event } = Astro.props as { event: Event };
 
-// Format date for display
-const [year, month, day] = event.date.split('-');
-const formattedDate = new Date(Number(year), Number(month) - 1, Number(day)).toLocaleDateString('en-US', {
-  weekday: 'short',
-  month: 'short',
-  day: 'numeric'
-});
+// Format date for display as MM/DD/YYYY
+const formattedDate = event.date
+  ? `${event.date.split('-')[1]}/${event.date.split('-')[2]}/${event.date.split('-')[0]}`
+  : '';
 
 // Get vibe color classes
 const getVibeColor = (vibe: string) => {
