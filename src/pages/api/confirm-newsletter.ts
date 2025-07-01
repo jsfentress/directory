@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
+import { Resend } from 'resend';
 
 const supabase = createClient(
   import.meta.env.SUPABASE_URL,
@@ -36,6 +37,13 @@ export const GET: APIRoute = async ({ url }) => {
     await supabase
       .from('newsletter_confirmed')
       .insert([{ email: data.email }]);
+
+    // Add to Resend audience
+    const resend = new Resend(import.meta.env.RESEND_API_KEY);
+    await resend.contacts.create({
+      email: data.email,
+      audienceId: 'e9326a5c-27fb-4d64-8f82-ea3e0d1cb74c',
+    });
 
     return new Response('Your subscription is confirmed! You may close this page.', {
       status: 200,
