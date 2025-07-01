@@ -14,8 +14,10 @@ export const POST: APIRoute = async ({ request }) => {
     const { title, venue, date, price, genre } = data;
 
     // Check that the event date is in the future
-    const eventDate = new Date(date);
+    const [year, month, day] = date.split('-');
+    const eventDate = new Date(Number(year), Number(month) - 1, Number(day));
     const now = new Date();
+    now.setHours(0, 0, 0, 0); // Set to start of today
     if (isNaN(eventDate.getTime()) || eventDate < now) {
       return new Response(JSON.stringify({ success: false, error: 'Event date must be in the future.' }), {
         status: 400,
