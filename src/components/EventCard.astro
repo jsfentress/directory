@@ -14,7 +14,8 @@ interface Event {
 const { event } = Astro.props as { event: Event };
 
 // Format date for display
-const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
+const [year, month, day] = event.date.split('-');
+const formattedDate = new Date(Number(year), Number(month) - 1, Number(day)).toLocaleDateString('en-US', {
   weekday: 'short',
   month: 'short',
   day: 'numeric'
