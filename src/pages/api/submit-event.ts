@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
+import { generateHydrateScript } from 'astro/dist/runtime/server/hydration';
 
 const supabase = createClient(
   import.meta.env.SUPABASE_URL,
@@ -24,7 +25,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     const { error } = await supabase
       .from('events')
-      .insert([{ title, venue, date, price, description, approved: false }]);
+      .insert([{ title, venue, date, price, genre, approved: false }]);
 
     if (error) throw error;
 
