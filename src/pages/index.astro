@@ -2,36 +2,19 @@
 import EventDirectory from '../components/EventDirectory.jsx';
 import NavDrawer from '../components/NavDrawer.jsx';
 import '../styles/global.css';
+import { createClient } from '@supabase/supabase-js';
 
-const events = [
-	{
-		id: 1,
-		title: 'Indie Night',
-		venue: 'The 5 Spot',
-		date: '2025-06-29',
-		price: '$10',
-		genre: ['Acoustic', 'Indie'],
-		description: 'A relaxed evening of acoustic performances.',
-	},
-	{
-		id: 2,
-		title: 'Loud & Local',
-		venue: 'Exit/In',
-		date: '2025-07-01',
-		price: '$15',
-		genre: ['Rock', 'Local'],
-		description: 'Showcasing heavy-hitting local bands.',
-	},
-	{
-		id: 3,
-		title: 'Experimental Jam',
-		venue: 'DRKMTTR',
-		date: '2025-07-04',
-		price: 'Free',
-		genre: ['Experimental', 'Jazz'],
-		description: 'Avant-garde sounds and synths.',
-	}
-];
+const supabase = createClient(import.meta.env.SUPABASE_URL, import.meta.env.SUPABASE_ANON_KEY);
+
+const { data: events, error } = await supabase
+	.from('events')
+	.select('*')
+	.eq('approved', true)
+	.order('date', { ascending: true });
+
+if (error) {
+	throw new Error(error.message);
+}
 
 const genres = ['Acoustic', 'Indie', 'Rock', 'Local', 'Experimental', 'Jazz'];
 
