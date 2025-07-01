@@ -22,13 +22,12 @@ export default function EventDirectory({ events, tags }) {
 
   // Sort and group events by date
   const groupedEvents = useMemo(() => {
-    // Sort by date ascending
-    const sorted = [...filteredEvents].sort((a, b) => new Date(a.date) - new Date(b.date));
-    // Group by local date string
+    // Sort by date ascending using string comparison
+    const sorted = [...filteredEvents].sort((a, b) => a.date.localeCompare(b.date));
+    // Group by date string (MM/DD/YYYY)
     return sorted.reduce((acc, event) => {
-      const dateKey = new Date(event.date).toLocaleDateString(undefined, {
-        weekday: 'long', year: 'numeric', month: 'short', day: 'numeric'
-      });
+      const [year, month, day] = event.date.split('-');
+      const dateKey = `${month}/${day}/${year}`;
       if (!acc[dateKey]) acc[dateKey] = [];
       acc[dateKey].push(event);
       return acc;
@@ -86,7 +85,7 @@ export default function EventDirectory({ events, tags }) {
                     <div>
                       <h2 class="text-lg font-bold">{event.title}</h2>
                       <p class="text-sm text-gray-600">
-                        {event.venue} — {new Date(event.date).toLocaleDateString()}
+                        {event.venue} — {event.date ? `${event.date.split('-')[1]}/${event.date.split('-')[2]}/${event.date.split('-')[0]}` : ''}
                       </p>
                       <div class="flex flex-wrap gap-2 mb-1">
                         {(event.genre || []).map(g => (
