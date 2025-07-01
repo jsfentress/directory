@@ -94,7 +94,9 @@ export default function EventDirectory({ events, tags }) {
                           </span>
                         ))}
                       </div>
-                      <p class="text-xs italic text-gray-500">{event.price}</p>
+                      <p class="text-xs italic text-gray-500">
+                        {event.price ? `$${event.price}` : ''}
+                      </p>
                       <p class="mt-2 text-sm">{event.description}</p>
                     </div>
                     <div class="flex-shrink-0 flex items-center justify-end">
