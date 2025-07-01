@@ -11,7 +11,7 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const data = await request.json();
     // Adjust field names to match your Supabase table
-    const { title, venue, date, price, description } = data;
+    const { title, venue, date, price, genre } = data;
 
     // Check that the event date is in the future
     const eventDate = new Date(date);
