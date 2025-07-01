@@ -12,9 +12,19 @@ export const POST: APIRoute = async ({ request }) => {
     // Adjust field names to match your Supabase table
     const { title, venue, date, price, description } = data;
 
+    // Check that the event date is in the future
+    const eventDate = new Date(date);
+    const now = new Date();
+    if (isNaN(eventDate.getTime()) || eventDate < now) {
+      return new Response(JSON.stringify({ success: false, error: 'Event date must be in the future.' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     const { error } = await supabase
       .from('events')
-      .insert([{ title, venue, date, price, description, status: 'pending' }]);
+      .insert([{ title, venue, date, price, description, approved: false }]);
 
     if (error) throw error;
 
