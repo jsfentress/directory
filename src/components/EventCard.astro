@@ -42,7 +42,9 @@ const getVibeColor = (vibe: string) => {
   <div class="p-6">
     <div class="flex justify-between items-start mb-3">
       <h3 class="text-xl font-bold text-gray-900">{event.title}</h3>
-      <span class="text-lg font-semibold text-green-600">{event.price}</span>
+      <span class="text-lg font-semibold text-green-600">
+        {isNaN(Number(event.price)) ? event.price : `$${event.price}`}
+      </span>
     </div>
     
     <p class="text-gray-600 mb-2">{event.venue}</p>
