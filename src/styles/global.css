@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
+
+.editors-picks-container {
+  background: #fff;
+  border: 2px solid #e0e7ff;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px #6366f11a;
+  padding: 0 0 2rem 0;
+  margin-bottom: 2.5rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+.editors-picks-header {
+  background: #6366f1;
+  color: #fff;
+  padding: 1rem 2rem;
+  font-weight: bold;
+  font-size: 1.3rem;
+  letter-spacing: -0.5px;
+  text-align: center;
+  border-top-left-radius: 1.3rem;
+  border-top-right-radius: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+.editors-picks-cards {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  padding: 0 1.5rem;
+}
+@media (min-width: 600px) {
+  .editors-picks-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+} 
