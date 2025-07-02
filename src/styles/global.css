@@ -56,4 +56,54 @@ h1, h2, h3, h4, h5, h6, .drawn, .editors-picks-header, .editors-pick-badge {
   background-blend-mode: multiply;
   background-size: cover;
   background-repeat: repeat;
+}
+.event-actions-container {
+  background: #fff;
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 32px #6366f133;
+  padding: 2rem 1.5rem;
+  margin: 2.5rem auto;
+  max-width: 420px;
+  border: 1.5px solid #e0e7ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cute-btn {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  padding: 0.85em 2em;
+  box-shadow: 0 2px 8px #6366f11a;
+  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  margin-bottom: 0.7em;
+  margin-right: 0;
+  min-width: 220px;
+  justify-content: center;
+}
+.cute-btn:last-child {
+  margin-bottom: 0;
+}
+.cute-btn:hover, .cute-btn:focus {
+  transform: translateY(-2px) scale(1.04) rotate(-1deg);
+  box-shadow: 0 6px 18px #6366f133;
+  filter: brightness(1.08);
+}
+.cute-btn:active {
+  transform: scale(0.98);
+}
+@media (max-width: 600px) {
+  .cute-btn {
+    min-width: 0;
+    width: 100%;
+  }
+  .event-actions-container {
+    max-width: 98vw;
+    padding: 1.2rem 0.5rem;
+  }
 } 
