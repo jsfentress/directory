@@ -62,7 +62,8 @@ const topEvents = [
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Nashville Music Radar</title>
+		<title>Live Music in Nashville – Calendar + Weekly Picks</title>
+		<meta name="description" content="Curated events and real-time Nashville music calendar. See what's worth seeing this week." />
 		<style>
 			body {
 				font-family: system-ui, sans-serif;
@@ -169,7 +170,7 @@ const topEvents = [
 		<div class="h-14"></div>
 		<header class="mb-6 flex flex-col items-center">
 			<div class="w-full max-w-2xl border border-indigo-200 rounded-lg bg-white px-4 py-6">
-				<h1 class="text-4xl font-bold mb-2 text-center">Nashville Music Radar</h1>
+				<h1 class="text-4xl font-bold mb-2 text-center">This Week in Nashville Music</h1>
 				<p class="text-gray-600 mb-6 text-center">Discover local shows by genre, venue, or keyword.</p>
 				<div class="mb-2 font-medium text-indigo-700 text-center">Sign up for our weekly roundup</div>
 				<form id="newsletter-form" class="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-md mx-auto bg-white p-4 rounded-lg shadow mb-8" autocomplete="off" aria-label="Newsletter signup">
@@ -194,13 +195,16 @@ const topEvents = [
 
 		<div class="max-w-2xl mx-auto w-full">
 			{editorPicks && editorPicks.length > 0 && (
-				<section class="editors-picks-container mb-10">
-					<div class="editors-picks-header">This Week's Picks</div>
+				<section class="editors-picks-container bg-paper mb-10">
+					<div class="editors-picks-header relative">
+						This Week's Picks
+						<img src="/assets/scribble-underline.svg" alt="" class="absolute left-1/2 -translate-x-1/2 bottom-0 w-32 pointer-events-none" style="z-index:1;" />
+					</div>
 					<div class="editors-picks-cards">
 						{editorPicks.map(event => (
 							<div class="rounded-xl shadow-lg border border-indigo-100 bg-indigo-50 p-5 flex flex-col gap-2 hover:shadow-xl transition">
 								<div class="flex items-center gap-2 mb-1">
-									<span class="inline-block bg-indigo-600 text-white text-xs px-3 py-1 rounded-full font-semibold">Editor's Pick</span>
+									<span class="editors-pick-badge inline-block bg-indigo-600 text-white text-xs px-3 py-1 rounded-full font-semibold relative z-10">Editor's Pick</span>
 									<span class="text-xs text-gray-500 ml-auto">{event.date ? `${event.date.split('-')[1]}/${event.date.split('-')[2]}/${event.date.split('-')[0]}` : ''}</span>
 								</div>
 								<h3 class="text-xl font-bold text-indigo-900">{event.title}</h3>

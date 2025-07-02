@@ -1,3 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+body {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: #e5e5e5;
+  margin: 0;
+  min-height: 100vh;
+}
+h1, h2, h3, h4, h5, h6, .drawn, .editors-picks-header, .editors-pick-badge {
+  font-family: 'Patrick Hand', cursive, sans-serif !important;
+}
+.mac-navbar, .editors-picks-container, .editors-picks-cards, .mac-frame, .main-title, .subtitle, .description, .directory-container, .tag-btn, .search-box, .cards-row, p, a, button, input, label, span, div {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif !important;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -36,4 +50,10 @@
   .editors-picks-cards {
     grid-template-columns: 1fr 1fr;
   }
+}
+.bg-paper {
+  background-image: url('/assets/paper-texture.png');
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-repeat: repeat;
 } 

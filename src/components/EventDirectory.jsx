@@ -81,30 +81,32 @@ export default function EventDirectory({ events, tags }) {
             <ul class="space-y-3">
               {groupedEvents[dateKey].map(event => (
                 <li key={event.id} class="list-none">
-                  <div class="border p-4 rounded shadow-sm hover:shadow-md transition bg-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div>
-                      <h2 class="text-lg font-bold">{event.title}</h2>
-                      <p class="text-sm text-gray-600">
-                        {event.venue} — {event.date ? `${event.date.split('-')[1]}/${event.date.split('-')[2]}/${event.date.split('-')[0]}` : ''}
-                      </p>
-                      <div class="flex flex-wrap gap-2 mb-1">
-                        {(event.genre || []).map(g => (
-                          <span key={g} class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-0.5 rounded-full font-medium">
-                            {g}
-                          </span>
-                        ))}
+                  <a href={`/events/${event.slug}`} class="block hover:shadow-xl transition">
+                    <div class="border p-4 rounded shadow-sm hover:shadow-md transition bg-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div>
+                        <h2 class="text-lg font-bold">{event.title}</h2>
+                        <p class="text-sm text-gray-600">
+                          {event.venue} — {event.date ? `${event.date.split('-')[1]}/${event.date.split('-')[2]}/${event.date.split('-')[0]}` : ''}
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-1">
+                          {(event.genre || []).map(g => (
+                            <span key={g} class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-0.5 rounded-full font-medium">
+                              {g}
+                            </span>
+                          ))}
+                        </div>
+                        <p class="text-xs italic text-gray-500">
+                          {event.price ? `$${event.price}` : ''}
+                        </p>
+                        <p class="mt-2 text-sm">{event.description}</p>
                       </div>
-                      <p class="text-xs italic text-gray-500">
-                        {event.price ? `$${event.price}` : ''}
-                      </p>
-                      <p class="mt-2 text-sm">{event.description}</p>
+                      <div class="flex-shrink-0 flex items-center justify-end">
+                        <button class="ml-auto px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition shadow" disabled>
+                          Get Tickets
+                        </button>
+                      </div>
                     </div>
-                    <div class="flex-shrink-0 flex items-center justify-end">
-                      <button class="ml-auto px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition shadow" disabled>
-                        Get Tickets
-                      </button>
-                    </div>
-                  </div>
+                  </a>
                 </li>
               ))}
             </ul>

@@ -25,9 +25,18 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
+    // Generate slug from title, venue, and date
+    function slugify(str) {
+      return str
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '');
+    }
+    const slug = `${slugify(title)}-at-${slugify(venue)}-${date}`;
+
     const { error } = await supabase
       .from('events')
-      .insert([{ title, venue, date, price, genre, approved: false }]);
+      .insert([{ title, venue, date, price, genre, slug, approved: false }]);
 
     if (error) throw error;
 
